@@ -32,6 +32,11 @@ class UserInterface(QtWidgets.QMainWindow):
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
 
+        # Add function selection box
+        function_box = QtWidgets.QComboBox()
+        function_box.addItems(["sin(x)", "cos(x)", "tan(x)", "exp(x)"])
+        vbox.addWidget(function_box)
+
         # Create Vbox for start value
         self.start_box = QtWidgets.QVBoxLayout()
         start_label = QtWidgets.QLabel("Start value")
