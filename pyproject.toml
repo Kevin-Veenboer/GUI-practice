@@ -14,3 +14,6 @@ pyqtgraph = "^0.13.3"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+functie_plotter = "functie_plotter.functie_plotter:main"

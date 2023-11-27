@@ -13,7 +13,14 @@ pg.setConfigOption("foreground", "k")
 
 
 class UserInterface(QtWidgets.QMainWindow):
+    """This describes the UserInterface class
+
+    Args:
+        QtWidgets.QMainWindow (class): parent class of the UserInterface class
+    """
+
     def __init__(self):
+        """This function creates the user interface"""
         # Run the parent init
         super().__init__()
 
@@ -33,9 +40,11 @@ class UserInterface(QtWidgets.QMainWindow):
         vbox.addLayout(hbox)
 
         # Add function selection box
-        function_box = QtWidgets.QComboBox()
-        function_box.addItems(["sin(x)", "cos(x)", "tan(x)", "exp(x)"])
-        vbox.addWidget(function_box)
+        self.function_box = QtWidgets.QComboBox()
+        self.function_box.addItems(
+            ["sin(x)", "cos(x)", "tan(x)", "exp(x)", "X", "X^2", "X^3", "X^-1"]
+        )
+        vbox.addWidget(self.function_box)
 
         # Create Vbox for start value
         self.start_box = QtWidgets.QVBoxLayout()
@@ -74,26 +83,115 @@ class UserInterface(QtWidgets.QMainWindow):
         # Plot with default values
         self.plot()
 
-        # If value is changed
+        # If value is changed of start, stop or number of points
         self.start_input.valueChanged.connect(self.plot)
         self.stop_input.valueChanged.connect(self.plot)
         self.num_input.valueChanged.connect(self.plot)
 
+        # if selected function is changed
+        self.function_box.currentTextChanged.connect(self.plot)
+
     @Slot()
     def plot(self):
-        # clear old stuff first
+        """This function handles the plotting of the selected function"""
+        # clear old plot first
         self.plot_widget.clear()
 
-        # plotting
-        x = np.linspace(
-            self.start_input.value(), self.stop_input.value(), self.num_input.value()
-        )
-        self.plot_widget.plot(x, np.sin(x), symbol=None, pen={"color": "k", "width": 5})
-        self.plot_widget.setLabel("left", "sin(x)")
-        self.plot_widget.setLabel("bottom", "x [radians]")
+        # check which function is selected and plot accordingly
+        if self.function_box.currentText() == "sin(x)":
+            x = np.linspace(
+                self.start_input.value(),
+                self.stop_input.value(),
+                self.num_input.value(),
+            )
+            self.plot_widget.plot(
+                x, np.sin(x), symbol=None, pen={"color": "k", "width": 5}
+            )
+            self.plot_widget.setLabel("left", "sin(x)")
+            self.plot_widget.setLabel("bottom", "x [radians]")
+
+        elif self.function_box.currentText() == "cos(x)":
+            x = np.linspace(
+                self.start_input.value(),
+                self.stop_input.value(),
+                self.num_input.value(),
+            )
+            self.plot_widget.plot(
+                x, np.cos(x), symbol=None, pen={"color": "k", "width": 5}
+            )
+            self.plot_widget.setLabel("left", "cos(x)")
+            self.plot_widget.setLabel("bottom", "x [radians]")
+
+        elif self.function_box.currentText() == "tan(x)":
+            x = np.linspace(
+                self.start_input.value(),
+                self.stop_input.value(),
+                self.num_input.value(),
+            )
+            self.plot_widget.plot(
+                x, np.tan(x), symbol=None, pen={"color": "k", "width": 5}
+            )
+            self.plot_widget.setLabel("left", "tan(x)")
+            self.plot_widget.setLabel("bottom", "x [radians]")
+
+        elif self.function_box.currentText() == "exp(x)":
+            x = np.linspace(
+                self.start_input.value(),
+                self.stop_input.value(),
+                self.num_input.value(),
+            )
+            self.plot_widget.plot(
+                x, np.exp(x), symbol=None, pen={"color": "k", "width": 5}
+            )
+            self.plot_widget.setLabel("left", "exp(x)")
+            self.plot_widget.setLabel("bottom", "x")
+        elif self.function_box.currentText() == "X":
+            x = np.linspace(
+                self.start_input.value(),
+                self.stop_input.value(),
+                self.num_input.value(),
+            )
+            self.plot_widget.plot(x, x, symbol=None, pen={"color": "k", "width": 5})
+            self.plot_widget.setLabel("left", "x")
+            self.plot_widget.setLabel("bottom", "x")
+        elif self.function_box.currentText() == "X^2":
+            x = np.linspace(
+                self.start_input.value(),
+                self.stop_input.value(),
+                self.num_input.value(),
+            )
+            f = lambda x: x**2
+            self.plot_widget.plot(x, f(x), symbol=None, pen={"color": "k", "width": 5})
+            self.plot_widget.setLabel("left", "x^2")
+            self.plot_widget.setLabel("bottom", "x")
+        elif self.function_box.currentText() == "X^3":
+            x = np.linspace(
+                self.start_input.value(),
+                self.stop_input.value(),
+                self.num_input.value(),
+            )
+            f = lambda x: x**3
+            self.plot_widget.plot(x, f(x), symbol=None, pen={"color": "k", "width": 5})
+            self.plot_widget.setLabel("left", "x^3")
+            self.plot_widget.setLabel("bottom", "x")
+        elif self.function_box.currentText() == "X^-1":
+            x = np.linspace(
+                self.start_input.value(),
+                self.stop_input.value(),
+                self.num_input.value(),
+            )
+            self.plot_widget.plot(
+                x,
+                np.where(x > 0, x**-1, 0),
+                symbol=None,
+                pen={"color": "k", "width": 5},
+            )
+            self.plot_widget.setLabel("left", "x^-1")
+            self.plot_widget.setLabel("bottom", "x")
 
 
 def main():
+    """This function runs the application and creates an instance of the UserInterface class."""
     app = QtWidgets.QApplication(sys.argv)
     ui = UserInterface()
     ui.show()
