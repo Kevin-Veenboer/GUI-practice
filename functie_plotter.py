@@ -32,18 +32,35 @@ class UserInterface(QtWidgets.QMainWindow):
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
 
-        # Creating plot and clear buttons
-        clear_button = QtWidgets.QPushButton("Clear")
-        hbox.addWidget(clear_button)
-        plot_button = QtWidgets.QPushButton("Plot")
-        hbox.addWidget(plot_button)
+        # Create boxes for start, stop and number of points value
+        start_box = QtWidgets.QDoubleSpinBox()
+        stop_box = QtWidgets.QDoubleSpinBox()
+        num_box = QtWidgets.QSpinBox()
 
-        # Connect button signals to functions
-        clear_button.clicked.connect(self.plot_widget.clear)
-        plot_button.clicked.connect(self.plot)
+        # Add boxes to hbox
+        hbox.addWidget(start_box)
+        hbox.addWidget(stop_box)
+        hbox.addWidget(num_box)
 
-    def plot(self):
-        x = np.linspace(0, 2 * pi, 100)
+        # set default values
+        start_box.setValue(0)
+        stop_box.setValue(2 * pi)
+        num_box.setValue(100)
+
+        # If value is changed
+        start_box.valueChanged.connect(
+            self.plot(start_box.value(), stop_box.value(), num_box.value())
+        )
+        stop_box.valueChanged.connect(
+            self.plot(start_box.value(), stop_box.value(), num_box.value())
+        )
+        num_box.valueChanged.connect(
+            self.plot(start_box.value(), stop_box.value(), num_box.value())
+        )
+
+    @Slot()
+    def plot(self, start, stop, num_points):
+        x = np.linspace(start, stop, num_points)
         self.plot_widget.plot(x, np.sin(x), symbol=None, pen={"color": "k", "width": 5})
         self.plot_widget.setLabel("left", "sin(x)")
         self.plot_widget.setLabel("bottom", "x [radians]")
