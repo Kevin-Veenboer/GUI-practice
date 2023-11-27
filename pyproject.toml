@@ -7,6 +7,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "~3.10"
+pyside6 = "^6.6.0"
+pyqtgraph = "^0.13.3"
 
 
 [build-system]
