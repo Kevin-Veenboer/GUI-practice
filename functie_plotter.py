@@ -32,35 +32,54 @@ class UserInterface(QtWidgets.QMainWindow):
         hbox = QtWidgets.QHBoxLayout()
         vbox.addLayout(hbox)
 
-        # Create boxes for start, stop and number of points value
-        start_box = QtWidgets.QDoubleSpinBox()
-        stop_box = QtWidgets.QDoubleSpinBox()
-        num_box = QtWidgets.QSpinBox()
+        # Create Vbox for start value
+        self.start_box = QtWidgets.QVBoxLayout()
+        start_label = QtWidgets.QLabel("Start value")
+        self.start_input = QtWidgets.QDoubleSpinBox()
+        self.start_box.addWidget(start_label)
+        self.start_box.addWidget(self.start_input)
+
+        # Create Vbox for start value
+        self.stop_box = QtWidgets.QVBoxLayout()
+        stop_label = QtWidgets.QLabel("Stop value")
+        self.stop_input = QtWidgets.QDoubleSpinBox()
+        self.stop_box.addWidget(stop_label)
+        self.stop_box.addWidget(self.stop_input)
+
+        # Create Vbox for start value
+        self.num_box = QtWidgets.QVBoxLayout()
+        num_label = QtWidgets.QLabel("Point value")
+        self.num_input = QtWidgets.QSpinBox()
+        self.num_box.addWidget(num_label)
+        self.num_box.addWidget(self.num_input)
 
         # Add boxes to hbox
-        hbox.addWidget(start_box)
-        hbox.addWidget(stop_box)
-        hbox.addWidget(num_box)
+        hbox.addLayout(self.start_box)
+        hbox.addLayout(self.stop_box)
+        hbox.addLayout(self.num_box)
 
         # set default values
-        start_box.setValue(0)
-        stop_box.setValue(2 * pi)
-        num_box.setValue(100)
+        self.start_input.setValue(0)
+        self.stop_input.setValue(2 * pi)
+        self.num_input.setValue(100)
+
+        # Plot with default values
+        self.plot()
 
         # If value is changed
-        start_box.valueChanged.connect(
-            self.plot(start_box.value(), stop_box.value(), num_box.value())
-        )
-        stop_box.valueChanged.connect(
-            self.plot(start_box.value(), stop_box.value(), num_box.value())
-        )
-        num_box.valueChanged.connect(
-            self.plot(start_box.value(), stop_box.value(), num_box.value())
-        )
+        self.start_input.valueChanged.connect(self.plot)
+        self.stop_input.valueChanged.connect(self.plot)
+        self.num_input.valueChanged.connect(self.plot)
 
     @Slot()
-    def plot(self, start, stop, num_points):
-        x = np.linspace(start, stop, num_points)
+    def plot(self):
+        # clear old stuff first
+        self.plot_widget.clear()
+
+        # plotting
+        x = np.linspace(
+            self.start_input.value(), self.stop_input.value(), self.num_input.value()
+        )
         self.plot_widget.plot(x, np.sin(x), symbol=None, pen={"color": "k", "width": 5})
         self.plot_widget.setLabel("left", "sin(x)")
         self.plot_widget.setLabel("bottom", "x [radians]")
