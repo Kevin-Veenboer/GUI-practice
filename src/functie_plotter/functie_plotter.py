@@ -145,6 +145,7 @@ class UserInterface(QtWidgets.QMainWindow):
             )
             self.plot_widget.setLabel("left", "exp(x)")
             self.plot_widget.setLabel("bottom", "x")
+
         elif self.function_box.currentText() == "X":
             x = np.linspace(
                 self.start_input.value(),
@@ -154,6 +155,7 @@ class UserInterface(QtWidgets.QMainWindow):
             self.plot_widget.plot(x, x, symbol=None, pen={"color": "k", "width": 5})
             self.plot_widget.setLabel("left", "x")
             self.plot_widget.setLabel("bottom", "x")
+
         elif self.function_box.currentText() == "X^2":
             x = np.linspace(
                 self.start_input.value(),
@@ -164,6 +166,7 @@ class UserInterface(QtWidgets.QMainWindow):
             self.plot_widget.plot(x, f(x), symbol=None, pen={"color": "k", "width": 5})
             self.plot_widget.setLabel("left", "x^2")
             self.plot_widget.setLabel("bottom", "x")
+
         elif self.function_box.currentText() == "X^3":
             x = np.linspace(
                 self.start_input.value(),
@@ -174,6 +177,7 @@ class UserInterface(QtWidgets.QMainWindow):
             self.plot_widget.plot(x, f(x), symbol=None, pen={"color": "k", "width": 5})
             self.plot_widget.setLabel("left", "x^3")
             self.plot_widget.setLabel("bottom", "x")
+
         elif self.function_box.currentText() == "X^-1":
             x = np.linspace(
                 self.start_input.value(),
@@ -182,7 +186,7 @@ class UserInterface(QtWidgets.QMainWindow):
             )
             self.plot_widget.plot(
                 x,
-                np.where(x > 0, x**-1, 0),
+                np.where(x != 0, 1 / x, 0),
                 symbol=None,
                 pen={"color": "k", "width": 5},
             )
