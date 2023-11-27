@@ -36,6 +36,7 @@ class UserInterface(QtWidgets.QMainWindow):
         self.start_box = QtWidgets.QVBoxLayout()
         start_label = QtWidgets.QLabel("Start value")
         self.start_input = QtWidgets.QDoubleSpinBox()
+        self.start_input.setRange(-50.0, 50.0)
         self.start_box.addWidget(start_label)
         self.start_box.addWidget(self.start_input)
 
@@ -43,6 +44,7 @@ class UserInterface(QtWidgets.QMainWindow):
         self.stop_box = QtWidgets.QVBoxLayout()
         stop_label = QtWidgets.QLabel("Stop value")
         self.stop_input = QtWidgets.QDoubleSpinBox()
+        self.stop_input.setRange(-50.0, 50.0)
         self.stop_box.addWidget(stop_label)
         self.stop_box.addWidget(self.stop_input)
 
@@ -50,6 +52,7 @@ class UserInterface(QtWidgets.QMainWindow):
         self.num_box = QtWidgets.QVBoxLayout()
         num_label = QtWidgets.QLabel("Point value")
         self.num_input = QtWidgets.QSpinBox()
+        self.num_input.setRange(0, 999)
         self.num_box.addWidget(num_label)
         self.num_box.addWidget(self.num_input)
 
