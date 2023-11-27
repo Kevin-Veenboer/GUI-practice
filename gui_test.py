@@ -41,7 +41,7 @@ class UserInterface(QtWidgets.QMainWindow):
 
     @Slot()
     def add_text_button_clicked(self):
-        self.textedit.append("KYS")
+        self.textedit.append("test")
 
     @Slot()
     def hello_world(self):
